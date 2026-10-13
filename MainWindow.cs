@@ -21,7 +21,9 @@ sealed class MainWindow : Form
     UpdateInfo? pendingUpdate; string? downloadedUpdate; bool updating;
     public MainWindow(LaunchOptions? launch = null)
     {
-        Text = "DateiWerk 0.5 • Dateien einfach bearbeiten"; ClientSize = new(1020, 840); MinimumSize = new(850, 700);
+        AutoScaleDimensions = new SizeF(96, 96); AutoScaleMode = AutoScaleMode.Dpi;
+        Text = "DateiWerk 0.5.1 • Dateien einfach bearbeiten"; ClientSize = new(1020, 840); MinimumSize = new(850, 700);
+        Icon = Icon.ExtractAssociatedIcon(Environment.ProcessPath!);
         StartPosition = FormStartPosition.CenterScreen; Font = new("Segoe UI", 10); BackColor = Color.FromArgb(241, 245, 249);
         var header = new Panel { Dock = DockStyle.Top, Height = 110, BackColor = Color.FromArgb(21, 40, 68), Padding = new(28, 10, 28, 12) };
         header.Controls.Add(new Label { Text = "Dateien umwandeln · ZIP-Archive · AES-256-Verschlüsselung", Dock = DockStyle.Bottom, Height = 26, ForeColor = Color.FromArgb(199, 216, 236) });
@@ -65,10 +67,11 @@ sealed class MainWindow : Form
         options.ColumnStyles.Add(new(SizeType.Percent, 100));
         TableLayoutPanel Row(string label, Control value, Button? button = null)
         {
-            var row = new TableLayoutPanel { Dock = DockStyle.Top, AutoSize = false, Height = 42, ColumnCount = 3, Margin = new(0, 5, 0, 5) };
-            row.ColumnStyles.Add(new(SizeType.Absolute, 165)); row.ColumnStyles.Add(new(SizeType.Percent, 100)); row.ColumnStyles.Add(new(SizeType.Absolute, button == null ? 0 : 135));
-            row.Controls.Add(new Label { Text = label, AutoSize = true, Anchor = AnchorStyles.Left }, 0, 0); value.Dock = DockStyle.Fill; row.Controls.Add(value, 1, 0);
-            if (button != null) { button.Dock = DockStyle.Fill; row.Controls.Add(button, 2, 0); }
+            var row = new TableLayoutPanel { Dock = DockStyle.Top, AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink, MinimumSize = new(0, 42), ColumnCount = 3, RowCount = 1, Margin = new(0, 5, 0, 5) };
+            row.RowStyles.Add(new(SizeType.AutoSize));
+            row.ColumnStyles.Add(new(SizeType.AutoSize)); row.ColumnStyles.Add(new(SizeType.Percent, 100)); row.ColumnStyles.Add(new(SizeType.AutoSize));
+            row.Controls.Add(new Label { Text = label, AutoSize = true, Anchor = AnchorStyles.Left, Margin = new(3, 3, 16, 3) }, 0, 0); value.Anchor = AnchorStyles.Left | AnchorStyles.Right; row.Controls.Add(value, 1, 0);
+            if (button != null) { button.Anchor = AnchorStyles.Left | AnchorStyles.Right; button.AutoSize = true; row.Controls.Add(button, 2, 0); }
             options.Controls.Add(row, 0, options.RowCount++); return row;
         }
         formatRow = Row("Zielformat", format);
@@ -81,7 +84,7 @@ sealed class MainWindow : Form
             if (operation == 2) { using var d = new FolderBrowserDialog { Description = "Übergeordneten Ordner auswählen" }; if (d.ShowDialog(this) == DialogResult.OK) destination.Text = Path.Combine(d.SelectedPath, "Entpackt-" + DateTime.Now.ToString("yyyyMMdd-HHmmss")); }
             else { using var d = new SaveFileDialog { FileName = Path.GetFileName(destination.Text), InitialDirectory = Path.GetDirectoryName(destination.Text), OverwritePrompt = true }; if (d.ShowDialog(this) == DialogResult.OK) destination.Text = d.FileName; }
         };
-        var outRow = Row("Ausgabedatei", destination, outputChoose); var oldLabel = outRow.GetControlFromPosition(0, 0)!; outRow.Controls.Remove(oldLabel); oldLabel.Dispose(); outRow.Controls.Add(outputLabel, 0, 0); outputLabel.Anchor = AnchorStyles.Left;
+        var outRow = Row("Ausgabedatei", destination, outputChoose); var oldLabel = outRow.GetControlFromPosition(0, 0)!; outRow.Controls.Remove(oldLabel); oldLabel.Dispose(); outRow.Controls.Add(outputLabel, 0, 0); outputLabel.Anchor = AnchorStyles.Left; outputLabel.Margin = new(3, 3, 16, 3);
         var policy = new Label { Text = "Originale bleiben erhalten. Vorhandene Ausgaben werden nicht überschrieben.", AutoSize = true, ForeColor = Color.DimGray, Margin = new(3, 10, 3, 0) }; options.Controls.Add(policy, 0, options.RowCount++);
         source.TextChanged += async (_, _) => await Analyze(); ffmpeg.TextChanged += async (_, _) => await Analyze();
         format.SelectedIndexChanged += (_, _) => { if (initialized) { UpdateView(); SuggestOutput(); } }; destination.TextChanged += (_, _) => UpdateReady();

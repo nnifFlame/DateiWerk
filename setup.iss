@@ -1,5 +1,5 @@
 #ifndef AppVersion
-  #define AppVersion "0.5.0"
+  #define AppVersion "0.5.1"
 #endif
 #ifndef PayloadDir
   #define PayloadDir "..\..\work\publish-v05"
@@ -39,6 +39,7 @@ InfoAfterFile={#DocsDir}\INSTALLATION.txt
 OutputDir={#OutDir}
 OutputBaseFilename=DateiWerk-Setup
 SetupArchitecture=x64
+SetupIconFile=DateiWerk.ico
 Compression=lzma2/fast
 SolidCompression=yes
 WizardStyle=modern

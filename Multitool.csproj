@@ -2,7 +2,8 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <AssemblyName>DateiWerk</AssemblyName><Version>0.5.0</Version>
+    <AssemblyName>DateiWerk</AssemblyName><Version>0.5.1</Version>
+    <ApplicationIcon>DateiWerk.ico</ApplicationIcon>
     <DefaultItemExcludes>$(DefaultItemExcludes);build/**;Assets/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
