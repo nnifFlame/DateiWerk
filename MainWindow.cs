@@ -19,10 +19,11 @@ sealed class MainWindow : Form
     bool initialized, analyzing, automaticTask = true;
     string suggested = "", lastOutput = "";
     UpdateInfo? pendingUpdate; string? downloadedUpdate; bool updating;
+    bool darkMode = Appearance.LoadDarkMode();
     public MainWindow(LaunchOptions? launch = null)
     {
         AutoScaleDimensions = new SizeF(96, 96); AutoScaleMode = AutoScaleMode.Dpi;
-        Text = "DateiWerk 0.5.2 • Dateien einfach bearbeiten"; ClientSize = new(1020, 840); MinimumSize = new(850, 700);
+        Text = "DateiWerk 0.6.0 • Dateien einfach bearbeiten"; ClientSize = new(1020, 840); MinimumSize = new(850, 700);
         Icon = Icon.ExtractAssociatedIcon(Environment.ProcessPath!);
         StartPosition = FormStartPosition.CenterScreen; Font = new("Segoe UI", 10); BackColor = Color.FromArgb(241, 245, 249);
         var header = new Panel { Dock = DockStyle.Top, Height = 110, BackColor = Color.FromArgb(21, 40, 68), Padding = new(28, 10, 28, 12) };
@@ -35,14 +36,11 @@ sealed class MainWindow : Form
         var content = new TableLayoutPanel { Dock = DockStyle.Top, AutoSize = true, ColumnCount = 1, Padding = new(0, 0, 0, 12) };
         content.ColumnStyles.Add(new(SizeType.Percent, 100)); body.Controls.Add(content);
         void Add(Control c) { c.Dock = DockStyle.Top; content.Controls.Add(c); }
-        var explorerBar = new FlowLayoutPanel { AutoSize = false, Size = new(500, 38), Location = new(header.ClientSize.Width - 528, 18), Anchor = AnchorStyles.Top | AnchorStyles.Right, BackColor = header.BackColor };
-        var installMenu = new Button { Text = "Explorer-Menü einrichten", AutoSize = true, BackColor = Color.White, ForeColor = Color.FromArgb(21, 40, 68), FlatStyle = FlatStyle.Flat };
-        var removeMenu = new Button { Text = "Explorer-Menü entfernen", AutoSize = true, BackColor = Color.White, ForeColor = Color.FromArgb(21, 40, 68), FlatStyle = FlatStyle.Flat };
-        installMenu.Click += (_, _) => { try { ExplorerMenu.Register(Environment.ProcessPath!); status.Text = "DateiWerk steht jetzt im Explorer-Rechtsklick-Menü. Windows 11: Weitere Optionen anzeigen."; } catch (Exception e) { MessageBox.Show(this, e.Message, "Explorer-Menü"); } };
-        removeMenu.Click += (_, _) => { try { ExplorerMenu.Unregister(); status.Text = "DateiWerk-Eintrag aus dem Explorer-Menü entfernt."; } catch (Exception e) { MessageBox.Show(this, e.Message, "Explorer-Menü"); } };
-        explorerBar.Controls.AddRange([installMenu, removeMenu]); header.Controls.Add(explorerBar); explorerBar.BringToFront();
-        header.Resize += (_, _) => explorerBar.Location = new(Math.Max(300, header.ClientSize.Width - explorerBar.Width - 28), 18);
-        Shown += (_, _) => explorerBar.Location = new(Math.Max(300, header.ClientSize.Width - explorerBar.Width - 28), 18);
+        var settings = new Button { Text = "⚙  Einstellungen", AccessibleName = "Einstellungen öffnen", Name = "SettingsButton", Size = new(195, 42), Location = new(header.ClientSize.Width - 223, 18), Anchor = AnchorStyles.Top | AnchorStyles.Right, BackColor = Color.White, ForeColor = Color.FromArgb(21, 40, 68), FlatStyle = FlatStyle.Flat };
+        settings.Click += (_, _) => { using var dialog = new SettingsWindow(darkMode, value => { darkMode = value; ApplyAppearance(); }); dialog.ShowDialog(this); };
+        header.Controls.Add(settings); settings.BringToFront();
+        header.Resize += (_, _) => settings.Location = new(header.ClientSize.Width - settings.Width - 28, 18);
+        Shown += (_, _) => settings.Location = new(header.ClientSize.Width - settings.Width - 28, 18);
         var updatesBar = new FlowLayoutPanel { AutoSize = true, Margin = new(0, 0, 0, 8) };
         var automaticUpdates = new CheckBox { Text = "Updates automatisch", AutoSize = true, Checked = Updater.Automatic };
         var checkUpdates = new Button { Text = "Nach Updates suchen", AutoSize = true };
@@ -102,6 +100,16 @@ sealed class MainWindow : Form
     internal void SelectPreviewFile(string path) => source.Text = path;
     internal void SelectPreviewOperation(int value) { automaticTask = false; operation = value; UpdateView(); }
     internal bool AnalysisReady => !analyzing && analysis != null;
+    internal void PreviewTheme(bool dark) { darkMode = dark; ApplyAppearance(); }
+    void ApplyAppearance()
+    {
+        Appearance.Apply(this, darkMode);
+        for (int i = 0; i < tasks.Count; i++)
+        {
+            tasks[i].BackColor = i == operation ? Color.FromArgb(30, 93, 176) : darkMode ? Appearance.Surface : Color.White;
+            tasks[i].ForeColor = i == operation || darkMode ? Color.White : Color.FromArgb(34, 51, 73);
+        }
+    }
     static void StylePrimary(Button b) { b.BackColor = Color.FromArgb(30, 93, 176); b.ForeColor = Color.White; b.FlatStyle = FlatStyle.Flat; b.Padding = new(14, 5, 14, 5); }
     async Task Analyze()
     {
@@ -139,7 +147,7 @@ sealed class MainWindow : Form
             _ => "Das Zielformat wird nach Dateityp und verfügbaren Konvertern angeboten."
         } : "Für diese Datei ist derzeit kein passendes Ausgabeformat verfügbar.";
         if (operation == 3) formatHelp.Text = Directory.Exists(source.Text) ? "Der ganze Ordner wird als ZIP gepackt und mit AES-256-GCM verschlüsselt. Entschlüsseln erzeugt wieder das ZIP zum Entpacken." : "Datei oder Ordner wählen. Mindestens 12 Passwortzeichen; Originale bleiben erhalten.";
-        UpdateReady();
+        ApplyAppearance(); UpdateReady();
     }
     void UpdateReady()
     {
@@ -206,4 +214,5 @@ sealed class MainWindow : Form
         finally { password.Clear(); confirm.Clear(); cts.Dispose(); cts = null; body.Enabled = true; cancel.Enabled = false; progress.Style = ProgressBarStyle.Blocks; SuggestOutput(); UpdateReady(); }
     }
 }
+
 

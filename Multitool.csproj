@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <AssemblyName>DateiWerk</AssemblyName><Version>0.5.2</Version>
+    <AssemblyName>DateiWerk</AssemblyName><Version>0.6.0</Version>
     <ApplicationIcon>DateiWerk.ico</ApplicationIcon>
     <DefaultItemExcludes>$(DefaultItemExcludes);build/**;Assets/**</DefaultItemExcludes>
   </PropertyGroup>
@@ -13,4 +13,5 @@
     <EmbeddedResource Include="Assets/Media.zip" LogicalName="DateiWerk.Media.zip" />
   </ItemGroup>
 </Project>
+
 

@@ -19,6 +19,7 @@ static class Program
         }
         if (args.Contains("--self-test")) { Tests.Run(); return; }
         if (args.Contains("--layout-test")) { ApplicationConfiguration.Initialize(); LayoutTests.Run(); return; }
+        if (args.Contains("--theme-test")) { ApplicationConfiguration.Initialize(); ThemeTests.Run(); return; }
         if (args.Contains("--check-update-public")) { try { var update = Updater.CheckPublicDownloadAsync().GetAwaiter().GetResult(); File.WriteAllText(Path.Combine(AppContext.BaseDirectory,"Update-Public-Testergebnis.txt"), update == null ? "PASS: Öffentliche Update-Beschreibung erfolgreich geprüft; keine neuere Version." : "PASS: Update erkannt: " + update.Version); } catch (Exception e) { File.WriteAllText(Path.Combine(AppContext.BaseDirectory,"Update-Public-Testergebnis.txt"), "FAIL: " + e); Environment.ExitCode = 1; } return; }
         if (args.Length == 1 && args[0] == "--check-update") { try { var update = Updater.CheckAsync().GetAwaiter().GetResult(); File.WriteAllText(Path.Combine(AppContext.BaseDirectory,"Update-Testergebnis.txt"), update == null ? "PASS: GitHub-Update-Prüfung erfolgreich; keine neuere stabile Version." : "PASS: Update verfügbar: " + update.Version); } catch (Exception e) { File.WriteAllText(Path.Combine(AppContext.BaseDirectory,"Update-Testergebnis.txt"),"FAIL: "+e); Environment.ExitCode=1; } return; }
         if (args.Contains("--office-test")) { OfficeTests.Run(); return; }

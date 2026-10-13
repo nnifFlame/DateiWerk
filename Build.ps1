@@ -1,4 +1,4 @@
-param([string]$Version = '0.5.2')
+param([string]$Version = '0.6.0')
 $ErrorActionPreference = 'Stop'
 if ($Version -notmatch '^\d+\.\d+\.\d+$') { throw 'Version muss MAJOR.MINOR.PATCH sein.' }
 $root = $PSScriptRoot
@@ -38,5 +38,6 @@ $setup = Join-Path $releaseDir 'DateiWerk-Setup.exe'
 $manifest = [ordered]@{version=$Version;termsVersion='2026-10-13.1';sha256=(Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash.ToLowerInvariant()}
 $manifest | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $releaseDir 'update.json') -Encoding utf8NoBOM
 Write-Output "Release-Dateien: $releaseDir"
+
 
 
