@@ -1,0 +1,27 @@
+DateiWerk installieren und aktualisieren
+
+1. DateiWerk-Setup.exe von den offiziellen GitHub-Releases herunterladen:
+   https://github.com/nnifFlame/DateiWerk/releases/latest
+2. Installer starten, Lizenz und Hinweise lesen und ausdrücklich zustimmen.
+3. Desktop-Verknüpfung, Explorer-Menü und automatische Updates auswählen.
+4. Installieren. DateiWerk wird im aktuellen Benutzerkonto unter
+   %LOCALAPPDATA%\Programs\DateiWerk installiert.
+
+Kein Administrator ist für die normale Benutzerinstallation erforderlich.
+Deinstallation: Windows-Einstellungen > Apps > Installierte Apps > DateiWerk,
+oder Startmenü > DateiWerk > Deinstallieren. Nutzerdokumente bleiben erhalten.
+
+Bei eingeschalteten Updates prüft DateiWerk beim Start die aktuellen stabilen
+GitHub-Releases. Der Installer wird heruntergeladen und per SHA256 geprüft.
+Die Installation wartet während einer laufenden Verarbeitung. Bei bereits
+gewählter Datei bleibt das Update bereit; "Nach Updates suchen" installiert
+es nach dem Vorgang. Neue Bedingungen werden erneut zur Zustimmung angezeigt.
+
+Die Anwendung und der Installer sind derzeit nicht codesigniert. Das kann
+Windows-Vertrauensmeldungen oder eine Blockade verursachen. DateiWerk ändert
+keine Windows-Sicherheitseinstellungen.
+
+Der Installer und die Integration wurden mit einem getrennten Test-Appnamen
+geprüft. Zentrale Konverter-, Verschlüsselungs- und Archivtests sind enthalten.
+Komplexe Office-Dokumente, jede Codec-Variante und jede zukünftige Windows-
+Version sind damit nicht vollständig geprüft.

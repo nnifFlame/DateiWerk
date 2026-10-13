@@ -1,0 +1,136 @@
+DateiWerk – Lizenz, Nutzungshinweise und Datenschutz
+Stand / Zustimmungsversion: 2026-10-13.1
+
+1. Open-Source-Projekt und Kontakt
+
+DateiWerk ist ein gemeinschaftlich weiterentwickelbares Open-Source-Projekt.
+Projekt, Quellcode, Veröffentlichungen und Kontakt über öffentliche Issues:
+https://github.com/nnifFlame/DateiWerk
+Diese Angaben sind keine erfundene Anbieteranschrift. Ob im konkreten Fall
+zusätzliche gesetzliche Anbieterangaben erforderlich sind, richtet sich nach
+der tatsächlichen Tätigkeit und dem anwendbaren Recht. Ein kommerzieller
+Vertrieb ist mit diesem Text allein nicht rechtlich geprüft.
+
+2. Lizenz und Zustimmung
+
+Der eigene DateiWerk-Quellcode wird unter der GNU General Public License
+Version 3.0 (GPL-3.0-only) angeboten. Der vollständige Lizenztext liegt als
+LICENSE bei. Die Rechte auf Nutzung, Untersuchung, Änderung und Weitergabe
+nach dieser Lizenz werden durch diese Hinweise nicht eingeschränkt.
+Die mitgelieferten Fremdkomponenten besitzen eigene Lizenzen; die Texte und
+Urheberrechtsvermerke liegen im Ordner Lizenzen. Diese Hinweise führen keine
+zusätzlichen Beschränkungen der GPL-Rechte ein und ersetzen keine Fremdlizenz.
+
+Vor der interaktiven Installation ist die Zustimmung zu dieser angezeigten
+Lizenz- und Hinweisseite erforderlich. Wer nicht zustimmt, kann die
+Installation abbrechen. Bereits erteilte Open-Source-Lizenzrechte bleiben
+unberührt. Bei inhaltlich geänderten Bedingungen fragt der Installer erneut.
+
+3. Datenverarbeitung und mögliche Folgen
+
+DateiWerk konvertiert Dateien, erstellt und entpackt ZIP-Archive und
+verschlüsselt Dateien und Ordner. Es gibt keine Zusicherung, dass jede Datei,
+jede Formatkombination oder jede besondere Dokumentfunktion unterstützt wird.
+Vorhandene Originale werden im vorgesehenen Ablauf nicht automatisch gelöscht.
+Vorhandene Ausgaben werden im vorgesehenen Ablauf nicht überschrieben.
+Trotzdem können Programmfehler, beschädigte Quellen, Datenträgerfehler,
+Abstürze, Stromausfälle oder andere Programme Daten beschädigen oder verlieren.
+
+Konvertierungen können insbesondere Bildqualität, Farben, Transparenz,
+Animationen, Formatierung, Schriftarten, Metadaten, digitale Signaturen,
+Formulare, Formeln, Makros, Tabellenstruktur, Spuren und Untertitel verändern
+oder entfernen. CSV-Export aus Excel übernimmt nur das erste Arbeitsblatt als
+Werte. PDF-Text nach Word rekonstruiert nicht vollständig das Original-Layout.
+Gescannte PDFs benötigen für bearbeitbaren Text eine gesonderte OCR; diese ist
+nicht Bestandteil dieser Version. Mehrseitige PDF-Bilder werden als ZIP exportiert.
+
+Bei Ordner-Verschlüsselung wird vorübergehend ein unverschlüsseltes ZIP im
+temporären Benutzerordner angelegt. Bei Entschlüsselung entstehen ebenfalls
+vorübergehende Klartextdateien. Nach normalem Ende werden Zwischendateien
+entfernt; bei Absturz können sie verbleiben. Dateien und Kennwörter können
+außerdem im Arbeitsspeicher oder durch Betriebssystemfunktionen sichtbar sein.
+DateiWerk bietet keine sichere Datenträgerlöschung und schützt nicht vor
+Schadsoftware, Bildschirmaufzeichnung oder einem kompromittierten Rechner.
+
+AES-256-GCM mit PBKDF2-SHA-256 ist eingesetzt. Sicherheit hängt insbesondere
+von einem ausreichend starken, geheimen Kennwort und einem sicheren Gerät ab.
+Ein verlorenes Kennwort kann nicht zurückgesetzt werden. Es gibt keine
+Wiederherstellungs- oder Hintertürschlüssel. Verlust des Kennworts oder eine
+beschädigte verschlüsselte Datei können den Zugriff endgültig verhindern.
+Verschlüsselte Ordner ergeben nach Entschlüsselung ein ZIP zum Entpacken.
+
+Vor wichtigen Vorgängen eine getrennte, geprüfte Sicherung erstellen, eine
+Kopie verwenden und das Ergebnis kontrollieren. Eine verschlüsselte Datei
+testweise entschlüsseln, bevor eine Originaldatei anderweitig gelöscht wird.
+Diese Empfehlungen sind keine Garantie für Schadensfreiheit.
+
+4. Gewährleistung und Haftungsgrenzen
+
+Soweit das anwendbare Recht es zulässt, wird die kostenlose Open-Source-
+Software ohne vertragliche Beschaffenheits- oder Verfügbarkeitsgarantie
+bereitgestellt. Die Gewährleistungs- und Haftungsregelungen der GPL gelten
+nach Maßgabe des zwingenden Rechts. Insbesondere besteht keine freiwillige
+Garantie für fehlerfreie Konvertierung oder die Wiederherstellung beschädigter
+oder mit verlorenem Kennwort verschlüsselter Dateien.
+
+Eine Haftungsbegrenzung gilt nicht für Vorsatz oder grobe Fahrlässigkeit,
+schuldhafte Verletzung von Leben, Körper oder Gesundheit, übernommene
+Garantien, arglistig verschwiegene Mängel, gesetzliche Produkthaftung oder
+andere gesetzlich unabdingbare Ansprüche. Zwingende Verbraucherrechte bleiben
+unberührt. Bei leicht fahrlässiger Verletzung wesentlicher Vertragspflichten
+ist eine zulässige Haftungsbegrenzung höchstens auf den vorhersehbaren,
+vertragstypischen Schaden begrenzt; der Vertragszweck darf nicht ausgehöhlt
+werden. Wo ein Ausschluss oder eine Begrenzung nicht zulässig ist, gilt das
+gesetzlich zulässige Maß. Dieser Text garantiert keinen wirksamen pauschalen
+Haftungsausschluss für alle verarbeiteten Dateien oder alle Schadensfälle.
+
+5. Datenschutz und Netzwerkzugriffe
+
+Dateiinhalte und Kennwörter werden von DateiWerk lokal verarbeitet und nicht
+an das Projekt oder GitHub hochgeladen. Kennwörter werden nicht als
+Kommandozeilenargumente an andere Programme übergeben. DateiWerk enthält
+keine eigene Nutzungs-Telemetrie, Werbung oder automatische Fehlerübertragung.
+
+Wenn automatische Updates aktiviert sind, prüft DateiWerk beim Start neue
+stabile Releases über GitHub. Dabei erhält GitHub technisch insbesondere die
+IP-Adresse, Zeitpunkt und die HTTP-Anfrage mit dem Programm-User-Agent.
+Beim Update-Download sind auch GitHubs Download-Infrastruktur und CDN beteiligt.
+Es werden keine ausgewählten Dateinamen, Dateiinhalt oder Kennwörter an die
+Update-Anfrage angehängt. GitHub ist ein externer Dienst mit eigener
+Datenschutzerklärung: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+
+Automatische Updates lassen sich bei der Installation auswählen und im
+Programm deaktivieren. Manuelle Updates lösen denselben Netzwerkzugriff aus.
+Einstellungen und Zustimmungsversion werden lokal im Benutzerkonto gespeichert.
+Updates verändern keine bearbeiteten Nutzerdokumente. Bei Offlinebetrieb oder
+fehlgeschlagener Prüfung bleibt die bestehende Programmversion nutzbar.
+Beiträge in GitHub-Issues sind öffentlich; keine vertraulichen Dateien oder
+Kennwörter dort veröffentlichen.
+
+6. Updates, Installation und Deinstallation
+
+Installation erfolgt für das aktuelle Windows-Benutzerkonto. Desktop-
+Verknüpfung, Explorer-Menü und automatische Updates sind auswählbar. Ein
+Deinstallationsprogramm und ein Eintrag in Windows' installierten Apps werden
+angelegt. Die Anwendung ist derzeit nicht codesigniert; Windows kann deshalb
+eine Vertrauensprüfung oder Blockade anzeigen. Es wird keine Änderung der
+Windows-Sicherheitseinstellungen vorgenommen oder vorausgesetzt.
+
+Updates werden ausschließlich aus dem öffentlichen DateiWerk-GitHub-Projekt
+bezogen und vor dem Start des Installers anhand SHA256 geprüft. Diese Prüfung
+ersetzt keine Codesignierung und schützt nicht vor einem kompromittierten
+GitHub-Projektkonto. Automatische Installation wartet, solange DateiWerk eine
+Datei verarbeitet. Bei einer bereits gewählten Datei wird das Update zur
+späteren Installation bereitgehalten. Neue Bedingungen benötigen neue Zustimmung.
+
+7. Rechte Dritter und anwendbares Recht
+
+Nutzer müssen die erforderlichen Rechte an den verarbeiteten Dateien besitzen.
+Urheberrechte, Datenschutzrechte und andere Rechte Dritter bleiben unberührt.
+Die jeweilige gesetzliche Zuständigkeit und zwingendes Recht bleiben bestehen;
+dieser Text bestimmt keinen ausschließlichen Gerichtsstand und nimmt keine
+gesetzlichen Verbraucherrechte. Eine unwirksame Klausel wird nicht automatisch
+in eine beliebige maximal belastende Klausel umgedeutet.
+
+Die Bedingungen sind ein projektspezifischer Entwurf und keine Bestätigung
+juristischer Prüfung oder vollständiger Rechtskonformität jedes Vertriebsszenarios.

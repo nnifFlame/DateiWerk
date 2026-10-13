@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <AssemblyName>DateiWerk</AssemblyName><Version>0.5.0</Version>
+    <DefaultItemExcludes>$(DefaultItemExcludes);build/**;Assets/**</DefaultItemExcludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="PdfPig" Version="0.1.16" />
+    <PackageReference Include="PDFtoImage" Version="5.4.0" />
+    <PackageReference Include="PDFsharp-GDI" Version="6.2.4" />
+    <EmbeddedResource Include="Assets/Media.zip" LogicalName="DateiWerk.Media.zip" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+bin/
+obj/
+build/
+Assets/Media.zip
+*.pdb
+*.part
+Testergebnis.txt
+Office-Testergebnis.txt
+Oberflaeche.png
