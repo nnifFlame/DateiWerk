@@ -22,7 +22,7 @@ sealed class MainWindow : Form
     public MainWindow(LaunchOptions? launch = null)
     {
         AutoScaleDimensions = new SizeF(96, 96); AutoScaleMode = AutoScaleMode.Dpi;
-        Text = "DateiWerk 0.5.1 • Dateien einfach bearbeiten"; ClientSize = new(1020, 840); MinimumSize = new(850, 700);
+        Text = "DateiWerk 0.5.2 • Dateien einfach bearbeiten"; ClientSize = new(1020, 840); MinimumSize = new(850, 700);
         Icon = Icon.ExtractAssociatedIcon(Environment.ProcessPath!);
         StartPosition = FormStartPosition.CenterScreen; Font = new("Segoe UI", 10); BackColor = Color.FromArgb(241, 245, 249);
         var header = new Panel { Dock = DockStyle.Top, Height = 110, BackColor = Color.FromArgb(21, 40, 68), Padding = new(28, 10, 28, 12) };
@@ -206,3 +206,4 @@ sealed class MainWindow : Form
         finally { password.Clear(); confirm.Clear(); cts.Dispose(); cts = null; body.Enabled = true; cancel.Enabled = false; progress.Style = ProgressBarStyle.Blocks; SuggestOutput(); UpdateReady(); }
     }
 }
+

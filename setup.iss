@@ -1,5 +1,5 @@
 #ifndef AppVersion
-  #define AppVersion "0.5.1"
+  #define AppVersion "0.5.2"
 #endif
 #ifndef PayloadDir
   #define PayloadDir "..\..\work\publish-v05"
@@ -118,3 +118,4 @@ begin
     RegWriteStringValue(HKCU, 'Software\{#AppKey}', 'Version', '{#AppVersion}');
   end;
 end;
+

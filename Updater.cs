@@ -37,6 +37,7 @@ static class Updater
     {
         using var client = Client(TimeSpan.FromSeconds(15));
         using var response = await client.GetAsync($"https://api.github.com/repos/{Repository}/releases/latest", ct);
+        if (response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.TooManyRequests) return await CheckPublicDownloadAsync(ct);
         if (response.StatusCode == HttpStatusCode.NotFound) return null;
         response.EnsureSuccessStatusCode(); using var release = JsonDocument.Parse(await response.Content.ReadAsStringAsync(ct));
         if (release.RootElement.GetProperty("draft").GetBoolean() || release.RootElement.GetProperty("prerelease").GetBoolean()) return null;
@@ -55,6 +56,24 @@ static class Updater
         if (!Version.TryParse(publishedVersion, out var parsed) || parsed != version || hash.Length != 64 || !hash.All(Uri.IsHexDigit) || terms.Length is < 1 or > 100) throw new IOException("Ungültige Update-Beschreibung.");
         if (setup.TryGetProperty("digest", out var digest) && digest.ValueKind == JsonValueKind.String && !string.Equals(digest.GetString(), "sha256:" + hash, StringComparison.OrdinalIgnoreCase)) throw new IOException("Update-Prüfsummen passen nicht zusammen.");
         return new(publishedVersion, terms, hash, setupUrl);
+    }
+    internal static async Task<UpdateInfo?> CheckPublicDownloadAsync(CancellationToken ct = default)
+    {
+        using var client = Client(TimeSpan.FromSeconds(20));
+        // Public release downloads remain available when GitHub's anonymous API quota is exhausted.
+        using var response = await client.GetAsync($"https://github.com/{Repository}/releases/latest/download/update.json", ct);
+        if (response.StatusCode == HttpStatusCode.NotFound) return null;
+        response.EnsureSuccessStatusCode();
+        string text = await response.Content.ReadAsStringAsync(ct);
+        if (text.Length > 65536) throw new IOException("Update-Beschreibung ist zu groß.");
+        using var manifest = JsonDocument.Parse(text.TrimStart('\uFEFF'));
+        string versionText = manifest.RootElement.GetProperty("version").GetString() ?? "";
+        string hash = manifest.RootElement.GetProperty("sha256").GetString() ?? "", terms = manifest.RootElement.GetProperty("termsVersion").GetString() ?? "";
+        if (!Version.TryParse(versionText, out var version) || hash.Length != 64 || !hash.All(Uri.IsHexDigit) || terms.Length is < 1 or > 100) throw new IOException("Ungültige Update-Beschreibung.");
+        if (version <= CurrentVersion) return null;
+        string setupUrl = $"https://github.com/{Repository}/releases/download/v{versionText}/DateiWerk-Setup.exe";
+        if (!IsTrustedAsset(setupUrl, "v" + versionText)) throw new IOException("Ungültige Update-Quelle.");
+        return new(versionText, terms, hash, setupUrl);
     }
     public static async Task<string> DownloadAsync(UpdateInfo update, IProgress<int>? progress = null, CancellationToken ct = default)
     {
