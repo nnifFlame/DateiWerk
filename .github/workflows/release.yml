@@ -1,0 +1,42 @@
+name: Windows Installer Release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (z. B. 0.6.0)'
+        required: true
+        type: string
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      - name: Installer bauen
+        shell: pwsh
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          $version = if ($env:INPUT_VERSION) { $env:INPUT_VERSION } else { $env:GITHUB_REF_NAME.TrimStart('v') }
+          ./Build.ps1 -Version $version
+      - name: Funktionsprüfungen
+        shell: pwsh
+        run: |
+          $run = Start-Process -FilePath ./build/app/DateiWerk.exe -ArgumentList '--self-test' -Wait -PassThru
+          Get-Content ./build/app/Testergebnis.txt
+          if ($run.ExitCode -ne 0) { throw 'Funktionsprüfungen fehlgeschlagen' }
+      - name: GitHub-Release veröffentlichen
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          $version = if ($env:INPUT_VERSION) { $env:INPUT_VERSION } else { $env:GITHUB_REF_NAME.TrimStart('v') }
+          $tag = 'v' + $version
+          gh release create $tag ./build/release/DateiWerk-Setup.exe ./build/release/update.json --title "DateiWerk $version" --generate-notes --repo $env:GITHUB_REPOSITORY
